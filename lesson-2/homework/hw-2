@@ -1,0 +1,109 @@
+CREATE TABLE Employees (
+    EmpID INT,
+    Name VARCHAR(50),
+    Salary DECIMAL(10,2)
+);
+
+
+
+
+INSERT INTO Employees (EmpID, Name, Salary)
+VALUES (1, 'John Smith', 5000.00);
+
+
+INSERT INTO Employees
+VALUES (2, 'Maria Johnson', 6000.00);
+
+
+INSERT INTO Employees (EmpID, Name, Salary)
+VALUES 
+(3, 'David Brown', 5500.00),
+(4, 'Emily Davis', 6200.00);
+
+
+UPDATE Employees
+SET Salary = 7000
+WHERE EmpID = 1;
+
+
+DELETE FROM Employees
+WHERE EmpID = 2;
+
+
+
+ALTER TABLE Employees
+ALTER COLUMN Name VARCHAR(100);
+
+
+ALTER TABLE Employees
+ADD Department VARCHAR(50);
+
+
+ALTER TABLE Employees
+ALTER COLUMN Salary FLOAT;
+
+
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(50)
+);
+
+
+TRUNCATE TABLE Employees;
+
+
+SELECT * FROM Employees;
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(100),
+    Category VARCHAR(50),
+    Price DECIMAL(10,2) CHECK (Price > 0),  
+    Description VARCHAR(255)
+);
+
+
+ALTER TABLE Products
+ADD StockQuantity INT DEFAULT 50;
+
+
+EXEC sp_rename 'Products.Category', 'ProductCategory', 'COLUMN';
+
+
+INSERT INTO Products (ProductID, ProductName, ProductCategory, Price, Description)
+VALUES 
+(1, 'Ноутбук Lenovo', 'Электроника', 1200.00, '15-дюймовый экран, SSD 512GB'),
+(2, 'Смартфон Samsung', 'Электроника', 800.00, '6.5-дюймовый AMOLED экран'),
+(3, 'Стул офисный', 'Мебель', 150.00, 'Эргономичный дизайн, регулируемая высота'),
+(4, 'Холодильник LG', 'Бытовая техника', 950.00, 'Двухкамерный, энергоэффективный'),
+(5, 'Кофеварка Philips', 'Бытовая техника', 200.00, 'Капельная система, 1.2 л');
+
+
+SELECT *
+INTO Products_Backup
+FROM Products;
+
+
+EXEC sp_rename 'Products', 'Inventory';
+
+
+ALTER TABLE Inventory
+ALTER COLUMN Price FLOAT;
+
+
+ALTER TABLE Inventory
+ADD ProductCode INT IDENTITY(1000,5);
+
+
+SELECT * FROM Inventory;
