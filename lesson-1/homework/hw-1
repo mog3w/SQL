@@ -1,0 +1,45 @@
+CREATE DATABASE SchoolDB;
+GO
+
+
+USE SchoolDB;
+GO
+
+
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Age INT
+);
+GO
+
+
+
+--2
+
+
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Age INT
+);
+
+
+
+
+
+
+USE SchoolDB;
+GO
+
+INSERT INTO Students (StudentID, Name, Age)
+VALUES 
+    (1, 'Саида', 20),
+    (2, 'Мухаммад', 21),
+    (3, 'Алина', 19);
+GO
+
+
+SELECT * FROM Students;
+GO
+
