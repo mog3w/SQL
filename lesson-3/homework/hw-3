@@ -1,0 +1,52 @@
+create database hw_class3
+go
+use hw_class3
+
+
+
+
+CREATE TABLE Categories (
+    CategoryID INT PRIMARY KEY,
+    CategoryName VARCHAR(100) NOT NULL
+);
+GO
+
+
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(100) NOT NULL,
+    CategoryID INT,
+    Price DECIMAL(10, 2),
+    Description VARCHAR(255)
+);
+GO
+
+
+ALTER TABLE Products
+ADD CONSTRAINT FK_Products_Categories
+FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID);
+GO
+
+
+ALTER TABLE Products
+ADD CONSTRAINT CK_Products_Price CHECK (Price > 0);
+GO
+
+
+ALTER TABLE Products
+ADD Stock INT NOT NULL DEFAULT 0;
+GO
+
+
+BULK INSERT Products
+FROM 'C:\Data\products.txt'
+WITH (
+    FIELDTERMINATOR = ',',
+    ROWTERMINATOR = '\n',
+    FIRSTROW = 2
+);
+GO
+
+UPDATE Products
+SET Price = ISNULL(Price, 0);
+GO
