@@ -1,0 +1,139 @@
+create database hw_class4
+USE hw_class4;
+GO
+
+IF OBJECT_ID('dbo.Orders', 'U') IS NOT NULL DROP TABLE Orders;
+IF OBJECT_ID('dbo.Sales', 'U') IS NOT NULL DROP TABLE Sales;
+IF OBJECT_ID('dbo.Products_Discounted', 'U') IS NOT NULL DROP TABLE Products_Discounted;
+IF OBJECT_ID('dbo.Products', 'U') IS NOT NULL DROP TABLE Products;
+IF OBJECT_ID('dbo.Customers', 'U') IS NOT NULL DROP TABLE Customers;
+IF OBJECT_ID('dbo.Employees', 'U') IS NOT NULL DROP TABLE Employees;
+GO
+
+
+
+CREATE TABLE Employees (
+    EmpID INT PRIMARY KEY IDENTITY(1,1),
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Position VARCHAR(50),
+    Salary DECIMAL(10,2)
+);
+
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY IDENTITY(1,1),
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    City VARCHAR(50),
+    Phone VARCHAR(20)
+);
+
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY IDENTITY(1,1),
+    ProductName VARCHAR(100),
+    Category VARCHAR(50),
+    Price DECIMAL(10,2),
+    Stock INT CHECK (Stock >= 0)
+);
+
+
+CREATE TABLE Products_Discounted (
+    ProductID INT PRIMARY KEY,
+    Discount DECIMAL(5,2) CHECK (Discount BETWEEN 0 AND 100),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+CREATE TABLE Sales (
+    SaleID INT PRIMARY KEY IDENTITY(1,1),
+    ProductID INT,
+    Quantity INT CHECK (Quantity > 0),
+    Total DECIMAL(10,2),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY IDENTITY(1,1),
+    CustomerID INT,
+    EmpID INT,
+    OrderDate DATE DEFAULT GETDATE(),
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+    FOREIGN KEY (EmpID) REFERENCES Employees(EmpID)
+);
+
+
+
+
+INSERT INTO Employees (FirstName, LastName, Position, Salary)
+VALUES
+('Ali', 'Karimov', 'Manager', 1200),
+('Dilshod', 'Saidov', 'Developer', 1500),
+('Malika', 'Rustamova', 'Designer', 900),
+('Zafar', 'Abdullaev', 'Tester', 800),
+('Aziza', 'Nazarova', 'HR', 1000),
+('Kamol', 'Rasulov', 'Developer', 1800),
+('Diyor', 'Yuldashev', 'Analyst', 1100);
+
+
+INSERT INTO Customers (FirstName, LastName, City, Phone)
+VALUES
+('Anvar', 'Aliyev', 'Tashkent', '+998991112233'),
+('Aziza', 'Saidova', 'Samarkand', '+998901234567'),
+('Bekzod', 'Karimov', 'Bukhara', '+998939998877'),
+('Alina', 'Rakhimova', 'Tashkent', '+998902223344'),
+('Amir', 'Rustamov', 'Andijan', '+998933334455');
+
+
+INSERT INTO Products (ProductName, Category, Price, Stock)
+VALUES
+('Laptop Lenovo', 'Electronics', 950.00, 15),
+('Mouse Logitech', 'Electronics', 35.00, 50),
+('Table', 'Furniture', 120.00, 20),
+('Chair', 'Furniture', 80.00, 25),
+('Smartphone Samsung', 'Electronics', 1100.00, 10),
+('Pen', 'Stationery', 5.50, 200),
+('Notebook', 'Stationery', 8.00, 150);
+
+INSERT INTO Products_Discounted (ProductID, Discount)
+VALUES
+(1, 10.00),
+(5, 15.00);
+
+
+INSERT INTO Sales (ProductID, Quantity, Total)
+VALUES
+(1, 2, 1900.00),
+(3, 1, 120.00),
+(5, 1, 1100.00);
+
+INSERT INTO Orders (CustomerID, EmpID)
+VALUES
+(1, 2),
+(3, 1),
+(4, 5);
+
+
+
+SELECT TOP 5 *
+FROM Employees
+ORDER BY Salary DESC;
+
+
+SELECT DISTINCT Category
+FROM Products;
+
+SELECT *
+FROM Products
+WHERE Price > 100;
+
+
+SELECT *
+FROM Customers
+WHERE FirstName LIKE 'A%';
+
+SELECT *
+FROM Products
+ORDER BY Price ASC;
+
+
